@@ -15,6 +15,7 @@ def create_db(filename):
             [session_id]    integer,
             [created]       integer,
             [freq]          real,
+            [power_dbm]     real,
             [v]             real)
         ''')
     c.execute('''
@@ -38,14 +39,14 @@ def create_session(conn, name, description=''):
 
     return c.lastrowid
 
-def record_measurement(conn, session_id, freq, v):
-    sql = '''insert into measurements(session_id, created, freq, v) values(?, datetime('now'), ?, ?)'''
+def record_measurement(conn, session_id, freq, power_dbm, v):
+    sql = '''insert into measurements(session_id, created, freq, power_dbm, v) values(?, datetime('now'), ?, ?, ?)'''
 
     c = conn.cursor()
-    c.execute(sql, (session_id, freq, v))
+    c.execute(sql, (session_id, freq, power_dbm, v))
     conn.commit()
 
-def freq_v_graph(conn, session_id, freq_values, power_levels, nr_samples):
+def freq_power_v_graph(conn, session_id, freq_values, power_levels, nr_samples):
     for f in freq_values_mhz:
         swp_gen.write(f"F1{f}MH")
 
@@ -56,7 +57,7 @@ def freq_v_graph(conn, session_id, freq_values, power_levels, nr_samples):
                 time.sleep(0.2)
                 v = dmv.measure_DCV
                 print(f"Freq={f}MHz, Power={p}dBm -> {v}V")
-                record_measurement(conn, session_id, f, v)
+                record_measurement(conn, session_id, f, p, v)
 
             print()
     pass
@@ -94,5 +95,5 @@ swp_gen.write("IL1")            # Internal leveling - for now
 
 # Do all the measurements...
 cur_session = create_session(conn, "V/dBm graph")
-freq_v_graph(conn, cur_session, freq_values_mhz, power_levels_dbm, 10)
+freq_power_v_graph(conn, cur_session, freq_values_mhz, power_levels_dbm, 10)
 
