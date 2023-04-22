@@ -52,7 +52,7 @@ def freq_power_v_graph(conn, session_id, freq_values, power_levels, nr_samples):
 
         for p in power_levels_dbm:
             swp_gen.write(f"LVL{p}DM")
-            time.sleep(0.5)
+            v = dmv.measure_DCV     # Dummy read to drop transition value
             for i in range(0,nr_samples):
                 time.sleep(0.2)
                 v = dmv.measure_DCV
