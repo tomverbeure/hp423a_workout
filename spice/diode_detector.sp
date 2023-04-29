@@ -1,5 +1,4 @@
-
-* voltage divider netlist
+* Diode Detector with AM signal
 
 * Carrier 
 VC carrier 0 sine(0v 1v 200meg)
@@ -12,14 +11,14 @@ VS signal 0 DC 0 PULSE(-1v 1v 0ns 10us  10us 1ns 20us)
 Bam source 0 V=1*(1+1.0*V(signal))*V(carrier)
 
 * 50 Ohm source resistance
-Rsource source in 50
+Rsource source input 50
 
 * 50 Ohm termination resistance at detector
-Rterm in 0 50
+Rterm input 0 50
 
 * Detector diode
-XD1 in out BAT62-02w_IN
-*XD1 in out 1N4148
+XD1 input out BAT62-02w_IN
+*XD1 input out 1N4148
 
 * Detector capacitor 
 Cdetect out 0 30p
@@ -36,15 +35,16 @@ Rprobe probe 0 1MEG
 .end
 
 .TRAN 20p 40.0us
-.PRINT trans v(in) v(out) v(probe)
+.PRINT trans v(input) v(out) v(probe)
 
 .control
 run
-*plot in out probe
+*plot input out probe
 *plot probe out
-plot signal+1 7*out source
+plot signal+1 6*out source
 .endc
 
+*============================================================
 .SUBCKT 1N4148 1 2 
 *
 * The resistor R1 does not reflect 
@@ -68,6 +68,7 @@ D1 1 2 1N4148
 + TT = 3.48E-9 
 .ENDS
 
+*============================================================
 .SUBCKT BAT62-02w_IN 100 200 
 *Package SCD80:
 LAIL1  1   10    0.45nH
@@ -80,3 +81,6 @@ R1 1 2 40e6
 .MODEL D1 D(IS=250.0n N=1.04 RS=190.0 XTI=1.5 EG=0.53 
 + CJO=284.2f M=0.17 VJ=0.224 FC=0.5 TT=25.0p BV=59.3 IBV=10.0u)
 .ENDS BAT62-02w_IN 
+
+*============================================================
+
