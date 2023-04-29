@@ -1,0 +1,19 @@
+.title KiCad schematic
+.model __D1 D
+.tran 20ps 4us
+.control
+run
+plot output input
+.endc
+Rload1 0 output 560
+Cdetect1 output 0 30p
+Lcoax1 output probe 75n
+Rprobe1 0 probe 1Meg
+Ccoax1 output 0 210p
+D1 input output __D1
+Rterm1 0 input 50
+Bam1 source 0 V=1*(1+1.0*V(signal))*V(carrier)
+Rsource1 source input 50
+Vcarrier1 carrier 0 DC 0 SIN( 0 1 100meg 0 0 0 1 ) AC 1 
+Vsignal1 signal 0 DC 0 SIN( 0 1 1meg 0 0 0 1 ) AC 1 
+.end
