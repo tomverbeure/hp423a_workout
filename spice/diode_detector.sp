@@ -8,7 +8,8 @@ VC carrier 0 sine(0v 1v 200meg)
 VS signal 0 DC 0 PULSE(-1v 1v 0ns 10us  10us 1ns 20us)
 
 * AM signal
-Bam source 0 V=1*(1+1.0*V(signal))*V(carrier)
+*Bam source 0 V=1*(1+1.0*V(signal))*V(carrier)
+Vsource 0 DC 0 PULSE(-1v 1v 0ns 10us  10us 1ns 20us)
 
 * 50 Ohm source resistance
 Rsource source input 50
@@ -21,7 +22,7 @@ XD1 input out BAT62-02w_IN
 *XD1 input out 1N4148
 
 * Detector capacitor 
-Cdetect out 0 30p
+Cdetect out 0 10p
 
 * Detector load
 Rload out 0 560

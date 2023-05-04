@@ -1,24 +1,64 @@
 
+.options savecurrents 
+
 * voltage divider netlist
 *V1 in 0 1
 * V1 in 0 DC 0 PULSE(0v 1.5v 100ps 50ps 50ps 200ps 500ps)
+
 *                  init pulse delay  rise  fall   width   period
-*V1 in 0 DC 0 PULSE(0v 1.0v    10ns   200ns  200ns 50ns   500ns)
-V1 in 0 DC 0 PULSE(0v 6mv    10ns   200ns  200ns 1ns   401ns)
+V1 in 0 DC 0 PULSE(0v 400mv    0ns   400ns  400ns 1ps   800ns)
+*V1 in 0 DC 0.5 
 *V1 in 0 DC 0 sine(0v 500mv 1MEG)
-*R1 in out 1k
-*XD1 in out 1N4148
-XD1 in out BAT62-02w_IN
-R2 out 0 2000
+
+XD1 in out1 BAT62-02w_IN
+R1 out1 id1 10k
+Vid1 id1 0 DC 0
+
+XD2 in out2 BAT62-02w_IN
+R2 out2 id2 1000
+Vid2 id2 0 DC 0
+
+XD3 in out3 BAT62-02w_IN
+R3 out3 id3 500
+Vid3 id3 0 DC 0
+
+XD4 in out4 BAT62-02w_IN
+R4 out4 id4 250
+Vid4 id4 0 DC 0
+
+XD5 in out5 BAT62-02w_IN
+R5 out5 id5 125
+Vid5 id5 0 DC 0
+
+XD8 in id8 BAT62-02w_IN
+*R8 out8 0 0.01
+Vid8 id8 0 DC 0
+
 .end
 
-.TRAN 1n 1000ns
-.PRINT trans v(in) v(out) 
+*.tran 1n 1000ns
+*.tran 0.1n 395ns
+.tran 0.1n 80ns
+.print trans v(in) v(out1) 
 
 .control
 run
-plot in out 0.37*v(in)*v(in) 
-*plot in out 0.37*v(in)*v(in) v(out)-0.37*v(in)*v(in) 
+plot v(out1) v(out2) v(out3) v(out4) v(out5) v(in)
+*plot (v(out1)/100k) (v(out2)/1000) (v(out3)/500)
+plot v(in)-v(out1) v(in)-v(out2) v(in)-v(out3) v(in)-v(out4) v(in)-v(out5) v(in)
+plot i(Vid1) i(Vid2) i(Vid3) i(Vid4) i(Vid5)
+
+* Diode resistance
+plot (v(in)-v(out1))/i(Vid1) (v(in)-v(out2))/i(Vid2) (v(in)-v(out3))/i(Vid3) (v(in)-v(out4))/i(Vid4) (v(in)-v(out5))/i(Vid5) v(in)*10000
+* Total resistance
+*plot v(in) v(out1)/i(Vid1) v(out2)/i(Vid2) v(out3)/i(Vid3) v(out4)/i(Vid4) v(out5)/i(Vid5) 
+
+*plot i(v8)
+
+*plot v(out3)
+*plot (v(out3)/0.01)
+*plot in out1 0.37*v(in)*v(in) 
+*plot in out1 0.37*v(in)*v(in) v(out1)-0.37*v(in)*v(in) 
 .endc
 
 .SUBCKT 1N4148 1 2 
