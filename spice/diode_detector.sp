@@ -8,8 +8,8 @@ VC carrier 0 sine(0v 1v 200meg)
 VS signal 0 DC 0 PULSE(-1v 1v 0ns 10us  10us 1ns 20us)
 
 * AM signal
-*Bam source 0 V=1*(1+1.0*V(signal))*V(carrier)
-Vsource 0 DC 0 PULSE(-1v 1v 0ns 10us  10us 1ns 20us)
+Bam source 0 V=1*(1+1.0*V(signal))*V(carrier)
+*Vsource 0 DC 0 PULSE(-1v 1v 0ns 10us  10us 1ns 20us)
 
 * 50 Ohm source resistance
 Rsource source input 50

@@ -1,0 +1,9 @@
+
+The lower the load resistance, the more the input voltage goes over the diode,
+and the more the current follows the standard diode curve.
+
+When the load resistance is very high (e.g. 100k), the 
+
+Schottky diodes have a large RS: BAT62-02V spice model has 190 Ohm!!! 1N4148 RS is only 0.65 Ohm.
+
+
